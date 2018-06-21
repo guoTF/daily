@@ -9,7 +9,7 @@
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- 加载数据库配置文件 -->
-	<context:property-placeholder location="file:/opt/dailyReport/sysConf.properties" ignore-unresolvable="true"/>
+	<context:property-placeholder location="classpath:conf/sysConf.properties" ignore-unresolvable="true"/>
 
 	<bean id="dataSourceProxy"
 		class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">

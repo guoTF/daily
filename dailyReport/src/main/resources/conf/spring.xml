@@ -11,7 +11,7 @@
     <context:component-scan base-package="com.seda.*.control"/>
     <mvc:annotation-driven />
     <mvc:default-servlet-handler />
-    <context:property-placeholder location="file:/opt/dailyReport/sysConf.properties"/>
+    <context:property-placeholder location="classpath:conf/sysConf.properties"/>
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="104857600" />

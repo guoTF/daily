@@ -1,6 +1,7 @@
 package com.seda.dailyReport.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.seda.dailyReport.model.vo.UserExcelVo;
 
@@ -17,5 +18,12 @@ public interface UtilService {
 	 * @return
 	 */
 	List<UserExcelVo> getUserExcelVo(UserExcelVo userExcelVo);
+
+	/**
+	 * 需要导出word模板的数据
+	 * @param id
+	 * @return
+	 */
+	Map<String, Object> getDataMap(Integer id);
 
 }

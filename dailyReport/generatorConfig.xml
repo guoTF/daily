@@ -40,6 +40,6 @@
                              targetProject="dailyReport">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
-        <table tableName="tb_user" domainObjectName="User" />
+        <table tableName="login_user" domainObjectName="LoginUser" />
     </context>
 </generatorConfiguration>

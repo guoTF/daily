@@ -37,6 +37,11 @@ import com.seda.dailyReport.util.ValidateCodeUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 
+/**
+ * 上传/下载公共controller
+ * @author admin
+ *
+ */
 @Controller
 @RequestMapping("common")
 public class CommonController {

@@ -2,6 +2,8 @@ package com.seda.dailyReport.dao;
 
 import com.seda.dailyReport.model.User;
 import com.seda.dailyReport.model.UserExample;
+import com.seda.dailyReport.model.vo.UserExcelVo;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +29,11 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    /**
+     * 查询需要导出的Excel对象
+     * @param userExcelVo
+     * @return
+     */
+	List<UserExcelVo> queryUserExcelVo(UserExcelVo userExcelVo);
 }

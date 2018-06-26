@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.seda.dailyReport.model.LoginUser;
 import com.seda.dailyReport.model.dto.OperationDto;
@@ -30,16 +31,23 @@ public class LoginController {
 	 * @return
 	 */
 	@RequestMapping(value="/register")
+	@ResponseBody
 	public OperationDto register(LoginUser loginUser, String identifyingCode, HttpServletRequest request){
 		return this.loginService.register(loginUser, identifyingCode, request);
 	}
 	
 	/**
 	 * 登录
+	 * @param userName
+	 * @param password
+	 * @param identifyingCode
+	 * @param request
 	 * @return
 	 */
-	public OperationDto login(){
-		return null;
+	@RequestMapping(value="/login")
+	@ResponseBody
+	public OperationDto login(String userName, String password, String identifyingCode, HttpServletRequest request){
+		return this.loginService.login(userName, password, identifyingCode,request);
 	}
 	
 	

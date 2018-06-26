@@ -20,4 +20,14 @@ public interface LoginService {
 	 */
 	OperationDto register(LoginUser loginUser, String identifyingCode, HttpServletRequest request);
 
+	/**
+	 * 登录
+	 * @param userName
+	 * @param password
+	 * @param identifyingCode
+	 * @param request
+	 * @return
+	 */
+	OperationDto login(String userName, String password, String identifyingCode, HttpServletRequest request);
+
 }

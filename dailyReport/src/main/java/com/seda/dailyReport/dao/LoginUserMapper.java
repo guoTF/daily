@@ -10,7 +10,7 @@ public interface LoginUserMapper {
 
     int deleteByExample(LoginUserExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String id);
 
     int insert(LoginUser record);
 
@@ -18,7 +18,7 @@ public interface LoginUserMapper {
 
     List<LoginUser> selectByExample(LoginUserExample example);
 
-    LoginUser selectByPrimaryKey(Integer id);
+    LoginUser selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") LoginUser record, @Param("example") LoginUserExample example);
 

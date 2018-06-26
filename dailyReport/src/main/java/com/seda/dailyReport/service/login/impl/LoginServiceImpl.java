@@ -14,6 +14,7 @@ import com.seda.dailyReport.model.LoginUser;
 import com.seda.dailyReport.model.LoginUserExample;
 import com.seda.dailyReport.model.dto.OperationDto;
 import com.seda.dailyReport.service.login.LoginService;
+import com.seda.dailyReport.util.CreatePrimaryKeyUtils;
 
 /**
  * 登录service实现类
@@ -64,12 +65,38 @@ public class LoginServiceImpl implements LoginService {
 		if (CollectionUtils.isNotEmpty(mailList)) {
 			return dto.fail("0", "该邮箱已被使用");
 		}
+		loginUser.setId(CreatePrimaryKeyUtils.createPrimaryKey());
 		loginUser.setStatus(1);
 		int i = this.loginUserMapper.insertSelective(loginUser);
 		if (i == 1) {
 			return dto.success("注册成功");
 		}
 		return dto.fail("0", "注册失败");
+	}
+
+	/**
+	 * 登录
+	 */
+	@Override
+	public OperationDto login(String userName, String password, String identifyingCode, HttpServletRequest request) {
+		OperationDto dto = new OperationDto();
+		if (StringUtils.isEmpty(userName)) {
+			return dto.fail("0", "用户名为空");
+		}
+		if (StringUtils.isEmpty(password)) {
+			return dto.fail("0", "密码为空");
+		}
+		String imgCode = (String) request.getSession().getAttribute("imgCode");
+		if (StringUtils.isEmpty(identifyingCode) || !identifyingCode.equals(imgCode)) {
+			return dto.fail("0", "验证码错误");
+		}
+		LoginUserExample userExample = new LoginUserExample();
+		userExample.createCriteria().andUserNameEqualTo(userName).andPasswordEqualTo(password).andStatusEqualTo(1);
+		List<LoginUser> userList = this.loginUserMapper.selectByExample(userExample);
+		if (CollectionUtils.isNotEmpty(userList) && userList.size() == 1) {
+			return dto.success("登录成功");
+		}
+		return dto.fail("0", "登录失败");
 	}
 
 }

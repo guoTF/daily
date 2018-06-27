@@ -52,10 +52,14 @@ public class DailyPlanServiceImpl implements DailyPlanService {
 		if (CollectionUtils.isNotEmpty(planList)) {
 			int num = 0;
 			for (DailyPlan dailyPlan : planList) {
+				String planProjectName = dailyPlan.getPlanProjectName();
 				String planContent = dailyPlan.getPlanContent();
 				String planGoal = dailyPlan.getPlanGoal();
 				Integer planNum = dailyPlan.getPlanNum();
 				Double planTime = dailyPlan.getPlanTime();
+				if (StringUtils.isBlank(planProjectName)) {
+					return dto.fail("0", "项目名称为空");
+				}
 				if (StringUtils.isBlank(planContent)) {
 					return dto.fail("0", "工作内容为空");
 				}

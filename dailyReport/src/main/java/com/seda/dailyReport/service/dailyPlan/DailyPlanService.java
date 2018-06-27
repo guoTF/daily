@@ -30,4 +30,11 @@ public interface DailyPlanService {
 	 */
 	List<DailyPlan> getPlan(String day, HttpServletRequest request);
 
+	/**
+	 * 删除一条记录
+	 * @param planId
+	 * @return
+	 */
+	OperationDto deleteOnePlan(String planId);
+
 }

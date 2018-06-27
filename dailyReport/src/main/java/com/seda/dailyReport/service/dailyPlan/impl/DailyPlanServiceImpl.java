@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.seda.dailyReport.dao.DailyPlanMapper;
 import com.seda.dailyReport.model.DailyPlan;
@@ -33,6 +34,7 @@ public class DailyPlanServiceImpl implements DailyPlanService {
 	 * 保存日计划
 	 */
 	@Override
+	@Transactional
 	public OperationDto savePlan(List<DailyPlan> planList, HttpServletRequest request) {
 		OperationDto dto = new OperationDto();
 		String userID = (String) request.getSession().getAttribute("userID");
@@ -91,6 +93,22 @@ public class DailyPlanServiceImpl implements DailyPlanService {
 		planExample.createCriteria().andUserIdEqualTo(userID).andPlanDayEqualTo(day);
 		List<DailyPlan> list = this.dailyPlanMapper.selectByExample(planExample);
 		return list;
+	}
+
+	/**
+	 * 删除一条记录
+	 */
+	@Override
+	public OperationDto deleteOnePlan(String planId) {
+		OperationDto dto = new OperationDto();
+		if (StringUtils.isBlank(planId)) {
+			return dto.fail("0", "未获取到删除信息！");
+		}
+		int i = this.dailyPlanMapper.deleteByPrimaryKey(planId);
+		if (i == 1) {
+			return dto.success("删除成功");
+		}
+		return dto.fail("0", "删除失败");
 	}
 
 }

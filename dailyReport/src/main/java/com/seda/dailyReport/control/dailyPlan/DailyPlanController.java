@@ -48,4 +48,15 @@ public class DailyPlanController {
 	public OperationDto savePlan(List<DailyPlan> planList, HttpServletRequest request){
 		return this.dailyPlanService.savePlan(planList, request);
 	}
+	
+	/**
+	 * 删除一条日计划
+	 * @param planId
+	 * @return
+	 */
+	@RequestMapping(value="/deleteOnePlan")
+	@ResponseBody
+	public OperationDto deleteOnePlan(String planId){
+		return this.dailyPlanService.deleteOnePlan(planId);
+	}
 }

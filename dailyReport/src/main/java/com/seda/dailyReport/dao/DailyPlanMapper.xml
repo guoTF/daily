@@ -5,6 +5,7 @@
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="plan_num" jdbcType="INTEGER" property="planNum" />
+    <result column="plan_project_name" jdbcType="VARCHAR" property="planProjectName" />
     <result column="plan_content" jdbcType="VARCHAR" property="planContent" />
     <result column="plan_goal" jdbcType="VARCHAR" property="planGoal" />
     <result column="plan_time" jdbcType="DOUBLE" property="planTime" />
@@ -70,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, plan_num, plan_content, plan_goal, plan_time, plan_day, create_date
+    id, user_id, plan_num, plan_project_name, plan_content, plan_goal, plan_time, plan_day, 
+    create_date
   </sql>
   <select id="selectByExample" parameterType="com.seda.dailyReport.model.DailyPlanExample" resultMap="BaseResultMap">
     select
@@ -104,11 +106,13 @@
   </delete>
   <insert id="insert" parameterType="com.seda.dailyReport.model.DailyPlan">
     insert into tb_daily_plan (id, user_id, plan_num, 
-      plan_content, plan_goal, plan_time, 
-      plan_day, create_date)
+      plan_project_name, plan_content, plan_goal, 
+      plan_time, plan_day, create_date
+      )
     values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{planNum,jdbcType=INTEGER}, 
-      #{planContent,jdbcType=VARCHAR}, #{planGoal,jdbcType=VARCHAR}, #{planTime,jdbcType=DOUBLE}, 
-      #{planDay,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
+      #{planProjectName,jdbcType=VARCHAR}, #{planContent,jdbcType=VARCHAR}, #{planGoal,jdbcType=VARCHAR}, 
+      #{planTime,jdbcType=DOUBLE}, #{planDay,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.seda.dailyReport.model.DailyPlan">
     insert into tb_daily_plan
@@ -121,6 +125,9 @@
       </if>
       <if test="planNum != null">
         plan_num,
+      </if>
+      <if test="planProjectName != null">
+        plan_project_name,
       </if>
       <if test="planContent != null">
         plan_content,
@@ -147,6 +154,9 @@
       </if>
       <if test="planNum != null">
         #{planNum,jdbcType=INTEGER},
+      </if>
+      <if test="planProjectName != null">
+        #{planProjectName,jdbcType=VARCHAR},
       </if>
       <if test="planContent != null">
         #{planContent,jdbcType=VARCHAR},
@@ -183,6 +193,9 @@
       <if test="record.planNum != null">
         plan_num = #{record.planNum,jdbcType=INTEGER},
       </if>
+      <if test="record.planProjectName != null">
+        plan_project_name = #{record.planProjectName,jdbcType=VARCHAR},
+      </if>
       <if test="record.planContent != null">
         plan_content = #{record.planContent,jdbcType=VARCHAR},
       </if>
@@ -208,6 +221,7 @@
     set id = #{record.id,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=VARCHAR},
       plan_num = #{record.planNum,jdbcType=INTEGER},
+      plan_project_name = #{record.planProjectName,jdbcType=VARCHAR},
       plan_content = #{record.planContent,jdbcType=VARCHAR},
       plan_goal = #{record.planGoal,jdbcType=VARCHAR},
       plan_time = #{record.planTime,jdbcType=DOUBLE},
@@ -225,6 +239,9 @@
       </if>
       <if test="planNum != null">
         plan_num = #{planNum,jdbcType=INTEGER},
+      </if>
+      <if test="planProjectName != null">
+        plan_project_name = #{planProjectName,jdbcType=VARCHAR},
       </if>
       <if test="planContent != null">
         plan_content = #{planContent,jdbcType=VARCHAR},
@@ -248,6 +265,7 @@
     update tb_daily_plan
     set user_id = #{userId,jdbcType=VARCHAR},
       plan_num = #{planNum,jdbcType=INTEGER},
+      plan_project_name = #{planProjectName,jdbcType=VARCHAR},
       plan_content = #{planContent,jdbcType=VARCHAR},
       plan_goal = #{planGoal,jdbcType=VARCHAR},
       plan_time = #{planTime,jdbcType=DOUBLE},

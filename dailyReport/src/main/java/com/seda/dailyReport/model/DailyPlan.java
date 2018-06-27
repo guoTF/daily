@@ -10,6 +10,8 @@ public class DailyPlan implements Serializable {
 
     private Integer planNum;
 
+    private String planProjectName;
+
     private String planContent;
 
     private String planGoal;
@@ -44,6 +46,14 @@ public class DailyPlan implements Serializable {
 
     public void setPlanNum(Integer planNum) {
         this.planNum = planNum;
+    }
+
+    public String getPlanProjectName() {
+        return planProjectName;
+    }
+
+    public void setPlanProjectName(String planProjectName) {
+        this.planProjectName = planProjectName;
     }
 
     public String getPlanContent() {

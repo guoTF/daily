@@ -305,6 +305,76 @@ public class DailyPlanExample {
             return (Criteria) this;
         }
 
+        public Criteria andPlanProjectNameIsNull() {
+            addCriterion("plan_project_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanProjectNameIsNotNull() {
+            addCriterion("plan_project_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanProjectNameEqualTo(String value) {
+            addCriterion("plan_project_name =", value, "planProjectName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanProjectNameNotEqualTo(String value) {
+            addCriterion("plan_project_name <>", value, "planProjectName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanProjectNameGreaterThan(String value) {
+            addCriterion("plan_project_name >", value, "planProjectName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanProjectNameGreaterThanOrEqualTo(String value) {
+            addCriterion("plan_project_name >=", value, "planProjectName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanProjectNameLessThan(String value) {
+            addCriterion("plan_project_name <", value, "planProjectName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanProjectNameLessThanOrEqualTo(String value) {
+            addCriterion("plan_project_name <=", value, "planProjectName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanProjectNameLike(String value) {
+            addCriterion("plan_project_name like", value, "planProjectName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanProjectNameNotLike(String value) {
+            addCriterion("plan_project_name not like", value, "planProjectName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanProjectNameIn(List<String> values) {
+            addCriterion("plan_project_name in", values, "planProjectName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanProjectNameNotIn(List<String> values) {
+            addCriterion("plan_project_name not in", values, "planProjectName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanProjectNameBetween(String value1, String value2) {
+            addCriterion("plan_project_name between", value1, value2, "planProjectName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanProjectNameNotBetween(String value1, String value2) {
+            addCriterion("plan_project_name not between", value1, value2, "planProjectName");
+            return (Criteria) this;
+        }
+
         public Criteria andPlanContentIsNull() {
             addCriterion("plan_content is null");
             return (Criteria) this;

@@ -15,6 +15,10 @@ public class LoginUser implements Serializable {
 
     private Integer status;
 
+    private String post;
+
+    private String department;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -63,5 +67,21 @@ public class LoginUser implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    public void setPost(String post) {
+        this.post = post;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 }

@@ -36,4 +36,11 @@ public interface DailyPlanMapper {
      * @return
      */
 	List<DailyPlanVo> queryPlanList(DailyPlanVo planVo);
+
+	/**
+	 * 查询项目组工作计划
+	 * @param planVo
+	 * @return
+	 */
+	List<DailyPlanVo> getPlanALLList(DailyPlanVo planVo);
 }

@@ -359,4 +359,34 @@
 		and <![CDATA[report_day >= #{endDate}]]>
 	</if>
   </select>
+  <select id="getReportALLList" parameterType="com.seda.dailyReport.model.vo.DailyReportVo" resultType="com.seda.dailyReport.model.vo.DailyReportVo">
+  	select 
+	id, 
+	user_id as userId, 
+	report_num as reportNum, 
+	report_project_name as reportProjectName, 
+	report_content as reportContent, 
+	report_time as reportTime, 
+	report_timeStr as reportTimestr, 
+	report_type_id as reportTypeId, 
+	report_goal as reportGoal, 
+	remark as remark, 
+	report_day as reportDay, 
+	create_date as createDate, 
+	update_date as updateDate
+	from tb_daily_report
+	where 1 =1 
+	<if test="reportProjectName != null && reportProjectName != ''">
+		and report_project_name like concat('%', #{reportProjectName}, '%')
+	</if>
+	<if test="userName != null && userName != ''">
+		and user_id in (select id from login_user where user_name like concat('%', #{userName}, '%')) 
+	</if>
+	<if test="beginDate != null && beginDate != ''">
+		and <![CDATA[report_day >= #{beginDate}]]>
+	</if>
+	<if test="endDate != null && endDate != ''">
+		and <![CDATA[report_day >= #{endDate}]]>
+	</if>
+  </select>
 </mapper>

@@ -36,4 +36,11 @@ public interface DailyReportMapper {
      * @return
      */
 	List<DailyReportVo> queryReportList(DailyReportVo reportVo);
+
+	/**
+	 * 查询项目组工作日志列表信息
+	 * @param reportVo
+	 * @return
+	 */
+	List<DailyReportVo> getReportALLList(DailyReportVo reportVo);
 }

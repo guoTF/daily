@@ -17,6 +17,8 @@ public class DailyReportVo {
 	private String beginDate;
 
 	private String endDate;
+	
+	private String userName;
 
 	// 响应
 	private String id;
@@ -46,6 +48,14 @@ public class DailyReportVo {
 	private Date updateDate;
 
 	private static final long serialVersionUID = 1L;
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
 	public int getPageNo() {
 		return pageNo;

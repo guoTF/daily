@@ -34,7 +34,7 @@ public class LoginServiceImpl implements LoginService {
 	 * 注册
 	 */
 	@Override
-	public OperationDto register(LoginUser loginUser, String identifyingCode, HttpServletRequest request) {
+	public OperationDto register(LoginUser loginUser, String identifyingCode, String mobileCode, HttpServletRequest request) {
 		OperationDto dto = new OperationDto();
 		String userName = loginUser.getUserName();
 		String password = loginUser.getPassword();
@@ -67,6 +67,10 @@ public class LoginServiceImpl implements LoginService {
 		List<LoginUser> mailList = this.loginUserMapper.selectByExample(mailExample);
 		if (CollectionUtils.isNotEmpty(mailList)) {
 			return dto.fail("0", "该邮箱已被使用");
+		}
+		String code = (String) request.getSession().getAttribute("mobileCode");
+		if (StringUtils.isBlank(mobileCode) || !code.equals(mobileCode)) {
+			return dto.fail("0", "验证码错误");
 		}
 		loginUser.setId(CreatePrimaryKeyUtils.createPrimaryKey());
 		loginUser.setStatus(1);

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.seda.dailyReport.model.vo.UserExcelVo;
-import com.seda.dailyReport.service.UtilService;
+import com.seda.dailyReport.service.util.UtilService;
 import com.seda.dailyReport.util.ExportExcel;
 import com.seda.dailyReport.util.WordUtil;
 

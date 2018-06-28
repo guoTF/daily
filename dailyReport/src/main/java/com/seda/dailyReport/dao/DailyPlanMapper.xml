@@ -273,4 +273,24 @@
       create_date = #{createDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="queryPlanList" parameterType="com.seda.dailyReport.model.vo.DailyPlanVo" resultType="com.seda.dailyReport.model.vo.DailyPlanVo">
+  	select 
+	id, 
+	user_id as userId, 
+	plan_num as planNum, 
+	plan_project_name as planProjectName, 
+	plan_content as planContent, 
+	plan_goal as planGoal, 
+	plan_time as planTime, 
+	plan_day as planDay, 
+	create_date as createDate 
+	from tb_daily_plan
+	where user_id = #{userId}
+  	<if test="beginDate != null && beginDate != '' ">
+  		and <![CDATA[plan_day >= #{beginDate}]]>
+  	</if>
+  	<if test="endDate != null && endDate != '' ">
+  		and <![CDATA[plan_day <= #{endDate}]]>
+  	</if>
+  </select>
 </mapper>

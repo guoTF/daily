@@ -2,6 +2,8 @@ package com.seda.dailyReport.dao;
 
 import com.seda.dailyReport.model.DailyPlan;
 import com.seda.dailyReport.model.DailyPlanExample;
+import com.seda.dailyReport.model.vo.DailyPlanVo;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +29,11 @@ public interface DailyPlanMapper {
     int updateByPrimaryKeySelective(DailyPlan record);
 
     int updateByPrimaryKey(DailyPlan record);
+
+    /**
+     *查询工作计划类表
+     * @param planVo
+     * @return
+     */
+	List<DailyPlanVo> queryPlanList(DailyPlanVo planVo);
 }

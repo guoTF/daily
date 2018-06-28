@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.github.pagehelper.PageInfo;
 import com.seda.dailyReport.model.vo.DailyPlanVo;
+import com.seda.dailyReport.model.vo.DailyReportVo;
 
 /**
  * 个人日志查询service
@@ -19,5 +20,13 @@ public interface DailyQueryService {
 	 * @return
 	 */
 	PageInfo<DailyPlanVo> queryPlanList(DailyPlanVo planVo, HttpServletRequest request);
+
+	/**
+	 * 个人工作日志查询
+	 * @param reportVo
+	 * @param request
+	 * @return
+	 */
+	PageInfo<DailyReportVo> queryReportList(DailyReportVo reportVo, HttpServletRequest request);
 
 }

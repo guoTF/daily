@@ -335,4 +335,28 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="queryReportList" parameterType="com.seda.dailyReport.model.vo.DailyReportVo" resultType="com.seda.dailyReport.model.vo.DailyReportVo">
+  	select 
+	id, 
+	user_id as userId, 
+	report_num as reportNum, 
+	report_project_name as reportProjectName, 
+	report_content as reportContent, 
+	report_time as reportTime, 
+	report_timeStr as reportTimestr, 
+	report_type_id as reportTypeId, 
+	report_goal as reportGoal, 
+	remark as remark, 
+	report_day as reportDay, 
+	create_date as createDate, 
+	update_date as updateDate
+	from tb_daily_report
+	where user_id = #{userId}
+	<if test="beginDate != null && beginDate != ''">
+		and <![CDATA[report_day >= #{beginDate}]]>
+	</if>
+	<if test="endDate != null && endDate != ''">
+		and <![CDATA[report_day >= #{endDate}]]>
+	</if>
+  </select>
 </mapper>

@@ -12,6 +12,7 @@ import com.github.pagehelper.PageInfo;
 import com.seda.dailyReport.dao.DailyPlanMapper;
 import com.seda.dailyReport.dao.DailyReportMapper;
 import com.seda.dailyReport.model.vo.DailyPlanVo;
+import com.seda.dailyReport.model.vo.DailyReportVo;
 import com.seda.dailyReport.service.dailyQuery.DailyQueryService;
 
 /**
@@ -38,6 +39,18 @@ public class DailyQueryServiceImpl implements DailyQueryService {
 		planVo.setUserId(userId);
 		List<DailyPlanVo> planVoList = this.dailyPlanMapper.queryPlanList(planVo);
 		return new PageInfo<DailyPlanVo>(planVoList);
+	}
+
+	/**
+	 * 个人工作日志查询
+	 */
+	@Override
+	public PageInfo<DailyReportVo> queryReportList(DailyReportVo reportVo, HttpServletRequest request) {
+		PageHelper.startPage(reportVo.getPageNo(), reportVo.getPageSize());
+		String userId = (String) request.getSession().getAttribute("userID");
+		reportVo.setUserId(userId);
+		List<DailyReportVo> reportVoList = this.dailyReportMapper.queryReportList(reportVo);
+		return new PageInfo<DailyReportVo>(reportVoList);
 	}
 
 }

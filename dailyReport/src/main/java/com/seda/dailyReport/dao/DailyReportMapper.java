@@ -2,6 +2,8 @@ package com.seda.dailyReport.dao;
 
 import com.seda.dailyReport.model.DailyReport;
 import com.seda.dailyReport.model.DailyReportExample;
+import com.seda.dailyReport.model.vo.DailyReportVo;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +29,11 @@ public interface DailyReportMapper {
     int updateByPrimaryKeySelective(DailyReport record);
 
     int updateByPrimaryKey(DailyReport record);
+
+    /**
+     * 查询个人日志列表信息
+     * @param reportVo
+     * @return
+     */
+	List<DailyReportVo> queryReportList(DailyReportVo reportVo);
 }

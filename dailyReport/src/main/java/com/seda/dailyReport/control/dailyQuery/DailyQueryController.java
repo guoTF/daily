@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.seda.dailyReport.model.vo.DailyPlanVo;
+import com.seda.dailyReport.model.vo.DailyReportVo;
 import com.seda.dailyReport.service.dailyQuery.DailyQueryService;
 
 /**
@@ -36,6 +37,14 @@ public class DailyQueryController {
 	}
 	
 	/**
-	 * 2、工作日志查询
+	 * 工作日志查询
+	 * @param reportVo
+	 * @param request
+	 * @return
 	 */
+	@RequestMapping(value="/queryReportList")
+	@ResponseBody
+	public PageInfo<DailyReportVo> queryReportList(DailyReportVo reportVo, HttpServletRequest request){
+		return this.dailyQueryService.queryReportList(reportVo, request);
+	}
 }

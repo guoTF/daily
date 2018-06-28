@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -15,15 +16,17 @@ import com.seda.dailyReport.model.LoginUserExample;
 import com.seda.dailyReport.model.dto.OperationDto;
 import com.seda.dailyReport.service.login.LoginService;
 import com.seda.dailyReport.util.CreatePrimaryKeyUtils;
+import com.seda.dailyReport.util.SmsUtils;
 
 /**
  * 登录service实现类
+ * 
  * @author admin
  *
  */
 @Service
 public class LoginServiceImpl implements LoginService {
-	
+
 	@Resource
 	private LoginUserMapper loginUserMapper;
 
@@ -45,7 +48,7 @@ public class LoginServiceImpl implements LoginService {
 			return dto.fail("0", "密码为空");
 		}
 		if (StringUtils.isBlank(phone)) {
-			return dto.fail("0","电话为空");
+			return dto.fail("0", "电话为空");
 		}
 		if (StringUtils.isBlank(mail)) {
 			return dto.fail("0", "邮箱为空");
@@ -97,6 +100,25 @@ public class LoginServiceImpl implements LoginService {
 			return dto.success("登录成功");
 		}
 		return dto.fail("0", "登录失败");
+	}
+
+	/**
+	 * 获取手机验证码
+	 */
+	@Override
+	public OperationDto sendMobileCode(String phone, HttpSession session) {
+		OperationDto dto = new OperationDto();
+		// 生成手机验证码
+		int mobileCode = (int) ((Math.random() * 9 + 1) * 100000);
+		String content = String.format("尊敬的用户，您正在注册日志管理，本次动态验证码：%s，有效时间：2分钟，请勿泄露。",
+				mobileCode);
+		String sendSms = SmsUtils.sendSms(phone, content, "注册验证码");
+		String code = sendSms.substring(0, sendSms.indexOf(":"));
+		if ("2".equals(code)) {
+			session.setAttribute("mobileCode", mobileCode);
+			return dto.success("短信验证码发送成功");
+		}
+		return dto.fail("0", "短信验证码发送失败");
 	}
 
 }

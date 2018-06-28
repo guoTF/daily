@@ -2,6 +2,7 @@ package com.seda.dailyReport.control.login;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +37,17 @@ public class LoginController {
 		return this.loginService.register(loginUser, identifyingCode, request);
 	}
 	
+	/**
+	 * 手机获取验证码
+	 * @param phone 手机号
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="/sendMobileCode")
+	@ResponseBody
+	public OperationDto sendMobileCode(String phone, HttpSession session){
+		return this.loginService.sendMobileCode(phone, session);
+	}
 	/**
 	 * 登录
 	 * @param userName

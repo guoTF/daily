@@ -68,6 +68,11 @@ public class PerformanceServiceImpl implements PerformanceService {
 		if (CollectionUtils.isEmpty(paList)) {
 			return dto.fail("0", "绩效考核内容不能为空");
 		}
+		PerformanceAppraisal pa = paList.get(0);
+		Integer status = pa.getStatus();
+		if (status == 1) {
+			return dto.fail("0", "邮件已发送给上级主管");
+		}
 		//根据考核周期和用户id查询，是否之前已经保存过绩效考核内容
 		PerformanceAppraisalExample example = new PerformanceAppraisalExample();
 		example.createCriteria().andUseridEqualTo(userId).andAppraisalMonthEqualTo(appraisalMonth);
@@ -104,6 +109,7 @@ public class PerformanceServiceImpl implements PerformanceService {
 			appraisal.setCreateDate(format);
 			appraisal.setUpdateBy(userId);
 			appraisal.setUpdateDate(format);
+			appraisal.setStatus(0);//状态(0：未发邮件，1：已发邮件)
 			int j = this.performanceAppraisalMapper.insertSelective(appraisal);
 			if (j == 1) {
 				count ++;

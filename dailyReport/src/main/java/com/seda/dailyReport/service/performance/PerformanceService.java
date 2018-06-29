@@ -27,5 +27,14 @@ public interface PerformanceService {
 	 */
 	OperationDto addPerformance(PerformanceVo pv, HttpServletRequest request);
 
+	/**
+	 * 发送邮件
+	 * @param toMail
+	 * @param month 
+	 * @param request
+	 * @return
+	 */
+	OperationDto sendMail(String toMail, String month, HttpServletRequest request);
+
 
 }

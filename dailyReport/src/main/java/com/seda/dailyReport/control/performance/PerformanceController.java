@@ -42,8 +42,22 @@ public class PerformanceController {
 	 * @param request
 	 * @return
 	 */
+	@RequestMapping("/addPerformance")
+	@ResponseBody
 	public OperationDto addPerformance(PerformanceVo pv, HttpServletRequest request){
 		return this.performanceService.addPerformance(pv, request);
+	}
+	
+	/**
+	 * 发送邮件
+	 * @param toMail
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/sendMail")
+	@ResponseBody
+	public OperationDto sendMail(String toMail, String month, HttpServletRequest request){
+		return this.performanceService.sendMail(toMail, month, request);
 	}
 	
 }

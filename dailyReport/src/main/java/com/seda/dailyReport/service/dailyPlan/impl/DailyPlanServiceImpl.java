@@ -47,7 +47,10 @@ public class DailyPlanServiceImpl implements DailyPlanService {
 		if (CollectionUtils.isNotEmpty(oldPlanList)) {
 			DailyPlanExample planExample = new DailyPlanExample();
 			planExample.createCriteria().andUserIdEqualTo(userID).andPlanDayEqualTo(planDay);
-			this.dailyPlanMapper.deleteByExample(planExample);
+			int i = this.dailyPlanMapper.deleteByExample(planExample);
+			if (i != oldPlanList.size()) {
+				return dto.fail("0", "保存失败");
+			}
 		}
 		if (CollectionUtils.isNotEmpty(planList)) {
 			int num = 0;

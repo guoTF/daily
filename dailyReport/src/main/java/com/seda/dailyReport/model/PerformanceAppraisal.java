@@ -29,6 +29,8 @@ public class PerformanceAppraisal implements Serializable {
 
     private String updateBy;
 
+    private Integer status;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -133,5 +135,13 @@ public class PerformanceAppraisal implements Serializable {
 
     public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

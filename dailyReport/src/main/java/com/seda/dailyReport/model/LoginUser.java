@@ -19,6 +19,10 @@ public class LoginUser implements Serializable {
 
     private String department;
 
+    private Integer activated;
+
+    private String codeUrl;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -83,5 +87,21 @@ public class LoginUser implements Serializable {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public Integer getActivated() {
+        return activated;
+    }
+
+    public void setActivated(Integer activated) {
+        this.activated = activated;
+    }
+
+    public String getCodeUrl() {
+        return codeUrl;
+    }
+
+    public void setCodeUrl(String codeUrl) {
+        this.codeUrl = codeUrl;
     }
 }

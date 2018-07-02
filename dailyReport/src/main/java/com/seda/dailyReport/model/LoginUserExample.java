@@ -653,6 +653,136 @@ public class LoginUserExample {
             addCriterion("department not between", value1, value2, "department");
             return (Criteria) this;
         }
+
+        public Criteria andActivatedIsNull() {
+            addCriterion("activated is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivatedIsNotNull() {
+            addCriterion("activated is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivatedEqualTo(Integer value) {
+            addCriterion("activated =", value, "activated");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivatedNotEqualTo(Integer value) {
+            addCriterion("activated <>", value, "activated");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivatedGreaterThan(Integer value) {
+            addCriterion("activated >", value, "activated");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivatedGreaterThanOrEqualTo(Integer value) {
+            addCriterion("activated >=", value, "activated");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivatedLessThan(Integer value) {
+            addCriterion("activated <", value, "activated");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivatedLessThanOrEqualTo(Integer value) {
+            addCriterion("activated <=", value, "activated");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivatedIn(List<Integer> values) {
+            addCriterion("activated in", values, "activated");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivatedNotIn(List<Integer> values) {
+            addCriterion("activated not in", values, "activated");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivatedBetween(Integer value1, Integer value2) {
+            addCriterion("activated between", value1, value2, "activated");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivatedNotBetween(Integer value1, Integer value2) {
+            addCriterion("activated not between", value1, value2, "activated");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeUrlIsNull() {
+            addCriterion("code_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeUrlIsNotNull() {
+            addCriterion("code_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeUrlEqualTo(String value) {
+            addCriterion("code_url =", value, "codeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeUrlNotEqualTo(String value) {
+            addCriterion("code_url <>", value, "codeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeUrlGreaterThan(String value) {
+            addCriterion("code_url >", value, "codeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("code_url >=", value, "codeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeUrlLessThan(String value) {
+            addCriterion("code_url <", value, "codeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeUrlLessThanOrEqualTo(String value) {
+            addCriterion("code_url <=", value, "codeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeUrlLike(String value) {
+            addCriterion("code_url like", value, "codeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeUrlNotLike(String value) {
+            addCriterion("code_url not like", value, "codeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeUrlIn(List<String> values) {
+            addCriterion("code_url in", values, "codeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeUrlNotIn(List<String> values) {
+            addCriterion("code_url not in", values, "codeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeUrlBetween(String value1, String value2) {
+            addCriterion("code_url between", value1, value2, "codeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeUrlNotBetween(String value1, String value2) {
+            addCriterion("code_url not between", value1, value2, "codeUrl");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

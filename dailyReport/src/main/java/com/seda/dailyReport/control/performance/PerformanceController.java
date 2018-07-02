@@ -1,7 +1,5 @@
 package com.seda.dailyReport.control.performance;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -58,6 +56,17 @@ public class PerformanceController {
 	@ResponseBody
 	public OperationDto sendMail(String toMail, String month, HttpServletRequest request){
 		return this.performanceService.sendMail(toMail, month, request);
+	}
+	
+	/**
+	 * 管理层查询某人某个考核周期的绩效考核内容
+	 * @param name
+	 * @param month
+	 * @param request
+	 * @return
+	 */
+	public OperationDto queryPerformance(String name, String month, HttpServletRequest request){
+		return this.performanceService.queryPerformance(name, month, request);
 	}
 	
 }

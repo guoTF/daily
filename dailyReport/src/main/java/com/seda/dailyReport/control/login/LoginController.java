@@ -2,6 +2,7 @@ package com.seda.dailyReport.control.login;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -33,8 +34,8 @@ public class LoginController {
 	 */
 	@RequestMapping(value="/register")
 	@ResponseBody
-	public OperationDto register(LoginUser loginUser, String identifyingCode, String mobileCode, HttpServletRequest request){
-		return this.loginService.register(loginUser, identifyingCode, mobileCode, request);
+	public OperationDto register(LoginUser loginUser, String identifyingCode, String mobileCode, HttpServletRequest request, HttpServletResponse response){
+		return this.loginService.register(loginUser, identifyingCode, mobileCode, request, response);
 	}
 	
 	/**
@@ -62,5 +63,15 @@ public class LoginController {
 		return this.loginService.login(userName, password, identifyingCode,request);
 	}
 	
+	/**
+	 * 邮箱激活
+	 * @param id
+	 * @param checkCode
+	 * @param response
+	 */
+	@RequestMapping("/activate")
+	public void activate(String id,String checkCode,HttpServletResponse response) {
+		this.loginService.activate(id, checkCode, response);
+	}
 	
 }

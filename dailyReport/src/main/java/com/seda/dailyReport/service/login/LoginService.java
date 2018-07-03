@@ -1,6 +1,7 @@
 package com.seda.dailyReport.service.login;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.seda.dailyReport.model.LoginUser;
@@ -19,7 +20,7 @@ public interface LoginService {
 	 * @param request
 	 * @return
 	 */
-	OperationDto register(LoginUser loginUser, String identifyingCode, String mobileCode, HttpServletRequest request);
+	OperationDto register(LoginUser loginUser, String identifyingCode, String mobileCode, HttpServletRequest request, HttpServletResponse response);
 
 	/**
 	 * 登录
@@ -38,5 +39,14 @@ public interface LoginService {
 	 * @return
 	 */
 	OperationDto sendMobileCode(String phone, HttpSession session);
+
+	/**
+	 * 邮件激活
+	 * @param id
+	 * @param checkCode
+	 * @param response
+	 * @return
+	 */
+	void activate(String id, String checkCode, HttpServletResponse response);
 
 }

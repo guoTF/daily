@@ -1,9 +1,12 @@
 package com.seda.dailyReport.service.login.impl;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -16,6 +19,8 @@ import com.seda.dailyReport.model.LoginUserExample;
 import com.seda.dailyReport.model.dto.OperationDto;
 import com.seda.dailyReport.service.login.LoginService;
 import com.seda.dailyReport.util.CreatePrimaryKeyUtils;
+import com.seda.dailyReport.util.EmailUtils;
+import com.seda.dailyReport.util.GenerateLinkUtils;
 import com.seda.dailyReport.util.SmsUtils;
 
 /**
@@ -34,7 +39,7 @@ public class LoginServiceImpl implements LoginService {
 	 * 注册
 	 */
 	@Override
-	public OperationDto register(LoginUser loginUser, String identifyingCode, String mobileCode, HttpServletRequest request) {
+	public OperationDto register(LoginUser loginUser, String identifyingCode, String mobileCode, HttpServletRequest request, HttpServletResponse response) {
 		OperationDto dto = new OperationDto();
 		String userName = loginUser.getUserName();
 		String password = loginUser.getPassword();
@@ -68,19 +73,33 @@ public class LoginServiceImpl implements LoginService {
 		if (CollectionUtils.isNotEmpty(mailList)) {
 			return dto.fail("0", "该邮箱已被使用");
 		}
+		//手机验证码验证
 		String code = (String) request.getSession().getAttribute("mobileCode");
 		if (StringUtils.isBlank(mobileCode) || !code.equals(mobileCode)) {
-			return dto.fail("0", "验证码错误");
+			return dto.fail("0", "手机验证码错误");
 		}
 		loginUser.setId(CreatePrimaryKeyUtils.createPrimaryKey());
 		loginUser.setStatus(1);
+		//邮箱激活认证
+		loginUser.setActivated(0);
+		loginUser.setCodeUrl(UUID.randomUUID().toString());
 		int i = this.loginUserMapper.insertSelective(loginUser);
 		if (i == 1) {
+			request.getSession().setAttribute("user", loginUser);
+			EmailUtils.sendAccountActivateEmail(loginUser);
+			try {
+				response.setContentType("text/html;charset=utf-8");
+				response.getWriter().write("激活邮件已经发送，请注意提醒查收");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
 			return dto.success("注册成功");
 		}
 		return dto.fail("0", "注册失败");
 	}
 
+	
+	
 	/**
 	 * 登录
 	 */
@@ -98,7 +117,7 @@ public class LoginServiceImpl implements LoginService {
 			return dto.fail("0", "验证码错误");
 		}
 		LoginUserExample userExample = new LoginUserExample();
-		userExample.createCriteria().andUserNameEqualTo(userName).andPasswordEqualTo(password).andStatusEqualTo(1);
+		userExample.createCriteria().andUserNameEqualTo(userName).andPasswordEqualTo(password).andStatusEqualTo(1).andActivatedEqualTo(1);
 		List<LoginUser> userList = this.loginUserMapper.selectByExample(userExample);
 		if (CollectionUtils.isNotEmpty(userList) && userList.size() == 1) {
 			return dto.success("登录成功");
@@ -123,6 +142,29 @@ public class LoginServiceImpl implements LoginService {
 			return dto.success("短信验证码发送成功");
 		}
 		return dto.fail("0", "短信验证码发送失败");
+	}
+
+
+	/**
+	 * 邮箱激活
+	 */
+	@Override
+	public void activate(String id, String checkCode, HttpServletResponse response) {
+		LoginUser loginUser = this.loginUserMapper.selectByPrimaryKey(id);
+		if(GenerateLinkUtils.verifyCheckcode(loginUser,checkCode)) {
+			//修改状态
+			LoginUserExample userExample = new LoginUserExample();
+			userExample.createCriteria().andActivatedEqualTo(1).andStatusEqualTo(1);
+			int i = this.loginUserMapper.updateByPrimaryKeySelective(loginUser);
+			if (i == 1) {
+				try {
+					response.setContentType("text/html;charset=utf-8");
+					response.getWriter().write("恭喜，激活成功！");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 }

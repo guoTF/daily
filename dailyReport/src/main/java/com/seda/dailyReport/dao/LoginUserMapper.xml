@@ -10,6 +10,8 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="post" jdbcType="VARCHAR" property="post" />
     <result column="department" jdbcType="VARCHAR" property="department" />
+    <result column="activated" jdbcType="INTEGER" property="activated" />
+    <result column="code_url" jdbcType="VARCHAR" property="codeUrl" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_name, passWord, phone, mail, status, post, department
+    id, user_name, passWord, phone, mail, status, post, department, activated, code_url
   </sql>
   <select id="selectByExample" parameterType="com.seda.dailyReport.model.LoginUserExample" resultMap="BaseResultMap">
     select
@@ -105,10 +107,12 @@
   <insert id="insert" parameterType="com.seda.dailyReport.model.LoginUser">
     insert into login_user (id, user_name, passWord, 
       phone, mail, status, 
-      post, department)
+      post, department, activated, 
+      code_url)
     values (#{id,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{mail,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{post,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR})
+      #{post,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{activated,jdbcType=INTEGER}, 
+      #{codeUrl,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.seda.dailyReport.model.LoginUser">
     insert into login_user
@@ -137,6 +141,12 @@
       <if test="department != null">
         department,
       </if>
+      <if test="activated != null">
+        activated,
+      </if>
+      <if test="codeUrl != null">
+        code_url,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -162,6 +172,12 @@
       </if>
       <if test="department != null">
         #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="activated != null">
+        #{activated,jdbcType=INTEGER},
+      </if>
+      <if test="codeUrl != null">
+        #{codeUrl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -198,6 +214,12 @@
       <if test="record.department != null">
         department = #{record.department,jdbcType=VARCHAR},
       </if>
+      <if test="record.activated != null">
+        activated = #{record.activated,jdbcType=INTEGER},
+      </if>
+      <if test="record.codeUrl != null">
+        code_url = #{record.codeUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -212,7 +234,9 @@
       mail = #{record.mail,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=INTEGER},
       post = #{record.post,jdbcType=VARCHAR},
-      department = #{record.department,jdbcType=VARCHAR}
+      department = #{record.department,jdbcType=VARCHAR},
+      activated = #{record.activated,jdbcType=INTEGER},
+      code_url = #{record.codeUrl,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -241,6 +265,12 @@
       <if test="department != null">
         department = #{department,jdbcType=VARCHAR},
       </if>
+      <if test="activated != null">
+        activated = #{activated,jdbcType=INTEGER},
+      </if>
+      <if test="codeUrl != null">
+        code_url = #{codeUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -252,7 +282,9 @@
       mail = #{mail,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       post = #{post,jdbcType=VARCHAR},
-      department = #{department,jdbcType=VARCHAR}
+      department = #{department,jdbcType=VARCHAR},
+      activated = #{activated,jdbcType=INTEGER},
+      code_url = #{codeUrl,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

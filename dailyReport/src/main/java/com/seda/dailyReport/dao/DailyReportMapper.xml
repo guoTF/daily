@@ -352,11 +352,11 @@
 	update_date as updateDate
 	from tb_daily_report
 	where user_id = #{userId}
-	<if test="beginDate != null && beginDate != ''">
+	<if test="beginDate != null and beginDate != ''">
 		and <![CDATA[report_day >= #{beginDate}]]>
 	</if>
-	<if test="endDate != null && endDate != ''">
-		and <![CDATA[report_day >= #{endDate}]]>
+	<if test="endDate != null and endDate != ''">
+		and <![CDATA[report_day <= #{endDate}]]>
 	</if>
   </select>
   <select id="getReportALLList" parameterType="com.seda.dailyReport.model.vo.DailyReportVo" resultType="com.seda.dailyReport.model.vo.DailyReportVo">
@@ -376,17 +376,17 @@
 	update_date as updateDate
 	from tb_daily_report
 	where 1 =1 
-	<if test="reportProjectName != null && reportProjectName != ''">
+	<if test="reportProjectName != null and reportProjectName != ''">
 		and report_project_name like concat('%', #{reportProjectName}, '%')
 	</if>
-	<if test="userName != null && userName != ''">
+	<if test="userName != null and userName != ''">
 		and user_id in (select id from login_user where user_name like concat('%', #{userName}, '%')) 
 	</if>
-	<if test="beginDate != null && beginDate != ''">
+	<if test="beginDate != null and beginDate != ''">
 		and <![CDATA[report_day >= #{beginDate}]]>
 	</if>
-	<if test="endDate != null && endDate != ''">
-		and <![CDATA[report_day >= #{endDate}]]>
+	<if test="endDate != null and endDate != ''">
+		and <![CDATA[report_day <= #{endDate}]]>
 	</if>
   </select>
 </mapper>

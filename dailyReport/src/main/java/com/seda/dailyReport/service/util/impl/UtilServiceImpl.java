@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Service;
+
 import com.seda.dailyReport.dao.UserMapper;
 import com.seda.dailyReport.model.User;
 import com.seda.dailyReport.model.vo.UserExcelVo;
@@ -16,6 +18,7 @@ import com.seda.dailyReport.service.util.UtilService;
  * @author admin
  *
  */
+@Service
 public class UtilServiceImpl implements UtilService {
 	
 	@Resource

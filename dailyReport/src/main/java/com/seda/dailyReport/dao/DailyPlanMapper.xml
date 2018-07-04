@@ -286,10 +286,10 @@
 	create_date as createDate 
 	from tb_daily_plan
 	where user_id = #{userId}
-  	<if test="beginDate != null && beginDate != '' ">
+  	<if test="beginDate != null and beginDate != '' ">
   		and <![CDATA[plan_day >= #{beginDate}]]>
   	</if>
-  	<if test="endDate != null && endDate != '' ">
+  	<if test="endDate != null and endDate != '' ">
   		and <![CDATA[plan_day <= #{endDate}]]>
   	</if>
   </select>
@@ -306,16 +306,16 @@
 	create_date as createDate 
 	from tb_daily_plan
 	where 1 = 1
-	<if test="planProjectName != null && planProjectName != ''">
+	<if test="planProjectName != null and planProjectName != ''">
 		and plan_project_name like concat('%', #{planProjectName}, '%')
 	</if>
-	<if test="userName != null && userName != ''">
+	<if test="userName != null and userName != ''">
 		and user_id in (select id from login_user where user_name like concat('%', #{userName}, '%')) 
 	</if>
-  	<if test="beginDate != null && beginDate != '' ">
+  	<if test="beginDate != null and beginDate != '' ">
   		and <![CDATA[plan_day >= #{beginDate}]]>
   	</if>
-  	<if test="endDate != null && endDate != '' ">
+  	<if test="endDate != null and endDate != '' ">
   		and <![CDATA[plan_day <= #{endDate}]]>
   	</if>
   </select>

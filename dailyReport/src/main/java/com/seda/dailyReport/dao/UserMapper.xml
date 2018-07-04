@@ -202,13 +202,13 @@
 	phone 
 	from tb_user
 	where 1 = 1
-	<if test="userName != '' and userName != null">
+	<if test="userName != '' && userName != null">
 		and user_name like concat('%',#{userName},'%')
 	</if>
-	<if test="age != null and age != ''">
+	<if test="age != null && age != ''">
 		and age = #{age}
 	</if>
-	<if test="phone != null and phone != ''">
+	<if test="phone != null && phone != ''">
 		and phone like concat('%',#{phone},'%')
 	</if>
 	order by user_name

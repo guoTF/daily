@@ -356,7 +356,7 @@
 		and <![CDATA[report_day >= #{beginDate}]]>
 	</if>
 	<if test="endDate != null && endDate != ''">
-		and <![CDATA[report_day >= #{endDate}]]>
+		and <![CDATA[report_day <= #{endDate}]]>
 	</if>
   </select>
   <select id="getReportALLList" parameterType="com.seda.dailyReport.model.vo.DailyReportVo" resultType="com.seda.dailyReport.model.vo.DailyReportVo">
@@ -386,7 +386,7 @@
 		and <![CDATA[report_day >= #{beginDate}]]>
 	</if>
 	<if test="endDate != null && endDate != ''">
-		and <![CDATA[report_day >= #{endDate}]]>
+		and <![CDATA[report_day <= #{endDate}]]>
 	</if>
   </select>
 </mapper>

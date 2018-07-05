@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.seda.dailyReport.model.vo.DailyPlanVo;
@@ -29,6 +30,8 @@ public class DailyQueryAllController {
 	 * @param request
 	 * @return
 	 */
+	@RequestMapping("/getPlanALLList")
+	@ResponseBody
 	public PageInfo<DailyPlanVo> getPlanALLList(DailyPlanVo planVo, HttpServletRequest request){
 		return this.dailyQueryAllService.getPlanALLList(planVo, request);
 	}
@@ -39,6 +42,8 @@ public class DailyQueryAllController {
 	 * @param request
 	 * @return
 	 */
+	@RequestMapping("/getReportALLList")
+	@ResponseBody
 	public PageInfo<DailyReportVo> getReportALLList(DailyReportVo reportVo, HttpServletRequest request){
 		return this.dailyQueryAllService.getReportALLList(reportVo, request);
 	}

@@ -24,11 +24,11 @@ public interface DailyReportService {
 
 	/**
 	 * 保存工作日志
-	 * @param reportList
+	 * @param reportStr
 	 * @param request
 	 * @return 
 	 */
-	OperationDto saveReport(List<DailyReport> reportList, HttpServletRequest request);
+	OperationDto saveReport(String reportStr, HttpServletRequest request);
 
 	/**
 	 * 删除一条工作日志

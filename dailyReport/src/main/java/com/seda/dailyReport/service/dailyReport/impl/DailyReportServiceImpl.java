@@ -22,6 +22,9 @@ import com.seda.dailyReport.model.dto.OperationDto;
 import com.seda.dailyReport.service.dailyReport.DailyReportService;
 import com.seda.dailyReport.util.CreatePrimaryKeyUtils;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 /**
  * 工作日志service实现类
  * 
@@ -68,32 +71,34 @@ public class DailyReportServiceImpl implements DailyReportService {
 	 */
 	@Override
 	@Transactional
-	public OperationDto saveReport(List<DailyReport> reportList, HttpServletRequest request) {
+	public OperationDto saveReport(String reportStr, HttpServletRequest request) {
 		OperationDto dto = new OperationDto();
 		String userId = (String) request.getSession().getAttribute("userID");
-		String reportDay = reportList.get(0).getReportDay();
-		if (StringUtils.isBlank(reportDay)) {
-			return dto.fail("0", "工作日为空");
-		}
-		DailyReportExample reportExample = new DailyReportExample();
-		reportExample.createCriteria().andUserIdEqualTo(userId).andReportDayEqualTo(reportDay);
-		List<DailyReport> oldReportList = this.dailyReportMapper.selectByExample(reportExample);
-		if (CollectionUtils.isNotEmpty(oldReportList)) {
-			int i = this.dailyReportMapper.deleteByExample(reportExample);
-			if (i != oldReportList.size()) {
-				return dto.fail("0", "保存失败");
+		JSONArray jsonArray = JSONArray.fromObject(reportStr);
+		if (CollectionUtils.isNotEmpty(jsonArray)) {
+			String reportDay = jsonArray.getJSONObject(0).getString("reportDay");
+			if (StringUtils.isBlank(reportDay)) {
+				return dto.fail("0", "工作日为空");
 			}
-		}
-		if (CollectionUtils.isNotEmpty(reportList)) {
+			DailyReportExample reportExample = new DailyReportExample();
+			reportExample.createCriteria().andUserIdEqualTo(userId).andReportDayEqualTo(reportDay);
+			List<DailyReport> oldReportList = this.dailyReportMapper.selectByExample(reportExample);
+			if (CollectionUtils.isNotEmpty(oldReportList)) {
+				int i = this.dailyReportMapper.deleteByExample(reportExample);
+				if (i != oldReportList.size()) {
+					return dto.fail("0", "保存失败");
+				}
+			}
 			int count = 0;
-			for (int i = 0; i < reportList.size(); i++) {
-				DailyReport report = reportList.get(i);
-				String reportProjectName = report.getReportProjectName();
-				String reportContent = report.getReportContent();
-				Double reportTime = report.getReportTime();
-				String reportTimestr = report.getReportTimestr();
-				String reportTypeId = report.getReportTypeId();
-				String reportGoal = report.getReportGoal();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				JSONObject jsonObject = jsonArray.getJSONObject(i);
+				String reportProjectName = jsonObject.getString("reportProjectName");
+				String reportContent = jsonObject.getString("reportContent");
+				Double reportTime = jsonObject.getDouble("reportTime");
+				String reportTimestr = jsonObject.getString("reportTimestr");
+				String reportTypeId = jsonObject.getString("reportTypeId");
+				String reportGoal = jsonObject.getString("reportGoal");
+				DailyReport report = new DailyReport();
 				if (StringUtils.isBlank(reportProjectName)) {
 					return dto.fail("0", "项目名称为空");
 				}
@@ -112,16 +117,28 @@ public class DailyReportServiceImpl implements DailyReportService {
 				if (StringUtils.isBlank(reportGoal)) {
 					return dto.fail("0", "工作目标为空");
 				}
+				report.setReportNum(jsonObject.getInt("reportNum"));
+				report.setReportDay(jsonObject.getString(reportDay));
+				report.setReportProjectName(reportProjectName);
+				report.setReportContent(reportContent);
+				report.setReportTime(reportTime);
+				report.setReportTimestr(reportTimestr);
+				report.setReportTypeId(reportTypeId);
+				report.setReportGoal(reportGoal);
 				report.setId(CreatePrimaryKeyUtils.createPrimaryKey());
 				report.setUserId(userId);
 				report.setCreateDate(new Date());
 				report.setUpdateDate(new Date());
+				String remark = jsonObject.getString("remark");
+				if (StringUtils.isNotBlank(remark)) {
+					report.setRemark(remark);
+				}
 				int j = this.dailyReportMapper.insertSelective(report);
 				if (j == 1) {
 					count++;
 				}
 			}
-			if (count == reportList.size()) {
+			if (count == jsonArray.size()) {
 				return dto.success("保存成功");
 			}
 		}

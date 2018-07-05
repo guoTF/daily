@@ -39,7 +39,7 @@ public class LoginServiceImpl implements LoginService {
 	 * 注册
 	 */
 	@Override
-	public OperationDto register(LoginUser loginUser, String identifyingCode, String mobileCode, HttpServletRequest request, HttpServletResponse response) {
+	public OperationDto register(LoginUser loginUser, String password2, String identifyingCode, String mobileCode, HttpServletRequest request, HttpServletResponse response) {
 		OperationDto dto = new OperationDto();
 		String userName = loginUser.getUserName();
 		String password = loginUser.getPassword();
@@ -51,6 +51,12 @@ public class LoginServiceImpl implements LoginService {
 		}
 		if (StringUtils.isBlank(password)) {
 			return dto.fail("0", "密码为空");
+		}
+		if (StringUtils.isBlank(password2)) {
+			return dto.fail("0", "确认密码为空");
+		}
+		if (!password.equals(password2)) {
+			return dto.fail("0", "确认密码与密码不相同");
 		}
 		if (StringUtils.isBlank(phone)) {
 			return dto.fail("0", "电话为空");

@@ -22,6 +22,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class ExportExcel<T> {
 	
+	/**
+	 * 导出Excel表格
+	 * @param headers 第一列字段名
+	 * @param dataset 需要导出的值
+	 * @param fileName 导出的文件名
+	 * @param response 
+	 */
 	public void exportExcel(String[] headers, Collection<T> dataset, String fileName, HttpServletResponse response) {
 		// 声明一个工作薄
 		XSSFWorkbook workbook = new XSSFWorkbook();

@@ -34,8 +34,8 @@ public class LoginController {
 	 */
 	@RequestMapping(value="/register")
 	@ResponseBody
-	public OperationDto register(LoginUser loginUser, String identifyingCode, String mobileCode, HttpServletRequest request, HttpServletResponse response){
-		return this.loginService.register(loginUser, identifyingCode, mobileCode, request, response);
+	public OperationDto register(LoginUser loginUser, String password2, String identifyingCode, String mobileCode, HttpServletRequest request, HttpServletResponse response){
+		return this.loginService.register(loginUser, password2, identifyingCode, mobileCode, request, response);
 	}
 	
 	/**

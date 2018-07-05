@@ -20,7 +20,7 @@ public interface LoginService {
 	 * @param request
 	 * @return
 	 */
-	OperationDto register(LoginUser loginUser, String identifyingCode, String mobileCode, HttpServletRequest request, HttpServletResponse response);
+	OperationDto register(LoginUser loginUser, String password2, String identifyingCode, String mobileCode, HttpServletRequest request, HttpServletResponse response);
 
 	/**
 	 * 登录

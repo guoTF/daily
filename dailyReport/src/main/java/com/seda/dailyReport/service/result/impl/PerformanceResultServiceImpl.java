@@ -119,7 +119,7 @@ public class PerformanceResultServiceImpl implements PerformanceResultService {
 				return dto.fail("0", "打分项序号为空");
 			}
 			if (StringUtils.isBlank(resultString)) {
-				return dto.fail("", "打分为完成");
+				return dto.fail("", "打分未完成");
 			}
 			PerformanceResult result = new PerformanceResult();
 			result.setId(CreatePrimaryKeyUtils.createPrimaryKey());

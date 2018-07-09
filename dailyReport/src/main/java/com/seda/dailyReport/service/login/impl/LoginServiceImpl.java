@@ -13,9 +13,15 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
+import com.seda.dailyReport.dao.DepartmentMapper;
 import com.seda.dailyReport.dao.LoginUserMapper;
+import com.seda.dailyReport.dao.PostMapper;
+import com.seda.dailyReport.model.Department;
+import com.seda.dailyReport.model.DepartmentExample;
 import com.seda.dailyReport.model.LoginUser;
 import com.seda.dailyReport.model.LoginUserExample;
+import com.seda.dailyReport.model.Post;
+import com.seda.dailyReport.model.PostExample;
 import com.seda.dailyReport.model.dto.OperationDto;
 import com.seda.dailyReport.service.login.LoginService;
 import com.seda.dailyReport.util.CreatePrimaryKeyUtils;
@@ -34,6 +40,12 @@ public class LoginServiceImpl implements LoginService {
 
 	@Resource
 	private LoginUserMapper loginUserMapper;
+	
+	@Resource
+	private DepartmentMapper departmentMapper;
+	
+	@Resource
+	private PostMapper postMapper;
 
 	/**
 	 * 注册
@@ -171,6 +183,30 @@ public class LoginServiceImpl implements LoginService {
 				}
 			}
 		}
+	}
+
+
+	/**
+	 * 获取所有部门
+	 */
+	@Override
+	public List<Department> getDepartment() {
+		DepartmentExample example = new DepartmentExample();
+		example.createCriteria();
+		List<Department> list = this.departmentMapper.selectByExample(example);
+		return list;
+	}
+
+
+	/**
+	 * 获取部门中所有的岗位信息
+	 */
+	@Override
+	public List<Post> getPost(int depId) {
+		PostExample example = new PostExample();
+		example.createCriteria().andDepNameEqualTo(depId);
+		List<Post> list = this.postMapper.selectByExample(example);
+		return list;
 	}
 
 }

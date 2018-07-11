@@ -1,5 +1,7 @@
 package com.seda.dailyReport.control.login;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.seda.dailyReport.model.Department;
 import com.seda.dailyReport.model.LoginUser;
+import com.seda.dailyReport.model.Post;
 import com.seda.dailyReport.model.dto.OperationDto;
 import com.seda.dailyReport.service.login.LoginService;
 
@@ -84,6 +88,27 @@ public class LoginController {
 	@RequestMapping("/activate")
 	public void activate(String id,String checkCode,HttpServletResponse response) {
 		this.loginService.activate(id, checkCode, response);
+	}
+	
+	/**
+	 * 获取所有部门
+	 * @return
+	 */
+	@RequestMapping("/getDepartment")
+	@ResponseBody
+	public List<Department> getDepartment(){
+		return this.loginService.getDepartment();
+	}
+	
+	/**
+	 * 获取岗位信息
+	 * @param depId
+	 * @return
+	 */
+	@RequestMapping("/getPost")
+	@ResponseBody
+	public List<Post> getPost(int depId){
+		return this.loginService.getPost(depId);
 	}
 	
 }

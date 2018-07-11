@@ -21,10 +21,13 @@ import org.springframework.stereotype.Service;
 
 import com.seda.dailyReport.dao.LoginUserMapper;
 import com.seda.dailyReport.dao.PerformanceAppraisalMapper;
+import com.seda.dailyReport.dao.TaskClassificationMapper;
 import com.seda.dailyReport.model.LoginUser;
 import com.seda.dailyReport.model.LoginUserExample;
 import com.seda.dailyReport.model.PerformanceAppraisal;
 import com.seda.dailyReport.model.PerformanceAppraisalExample;
+import com.seda.dailyReport.model.TaskClassification;
+import com.seda.dailyReport.model.TaskClassificationExample;
 import com.seda.dailyReport.model.dto.OperationDto;
 import com.seda.dailyReport.model.vo.PerformanceVo;
 import com.seda.dailyReport.service.performance.PerformanceService;
@@ -50,6 +53,9 @@ public class PerformanceServiceImpl implements PerformanceService {
 
 	@Resource
 	private PerformanceAppraisalMapper performanceAppraisalMapper;
+	
+	@Resource
+	private TaskClassificationMapper taskClassificationMapper;
 
 	@Value("${mail.smtp.auth}")
 	private String auth;
@@ -142,7 +148,7 @@ public class PerformanceServiceImpl implements PerformanceService {
 			appraisal.setAppraisalMonth(appraisalMonth);
 			appraisal.setCreateBy(userId);
 			appraisal.setUserid(userId);
-			appraisal.setTaskId(jsonObject.getString("taekId"));
+			appraisal.setTaskId(jsonObject.getString("taekId"));//该字段保存任务名称，不是id值
 			appraisal.setOvertim(jsonObject.getString("overtim"));
 			String format = DateUtils.format(new Date(), DateUtils.LONG_PURE_DIGITAL_PATTERN);
 			appraisal.setCreateDate(format);
@@ -243,6 +249,21 @@ public class PerformanceServiceImpl implements PerformanceService {
 			return dto.success(list);
 		}
 		return dto.fail("", "该考核人员" + name + "还未填写" + month + "考核周期的考核考核内容！");
+	}
+
+	/**
+	 * 获取所有的任务名称
+	 */
+	@Override
+	public OperationDto getTaskName() {
+		OperationDto dto = new OperationDto();
+		TaskClassificationExample example = new TaskClassificationExample();
+		example.createCriteria();
+		List<TaskClassification> list = this.taskClassificationMapper.selectByExample(example);
+		if (CollectionUtils.isNotEmpty(list)) {
+			return dto.success(list);
+		}
+		return dto.fail("0", "任务名称为空");
 	}
 
 }

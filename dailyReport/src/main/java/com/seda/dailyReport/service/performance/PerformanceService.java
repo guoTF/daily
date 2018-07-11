@@ -45,5 +45,11 @@ public interface PerformanceService {
 	 */
 	OperationDto queryPerformance(String name, String month, HttpServletRequest request);
 
+	/**
+	 * 获取任务名称类表
+	 * @return
+	 */
+	OperationDto getTaskName();
+
 
 }

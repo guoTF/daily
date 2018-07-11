@@ -20,7 +20,7 @@ public interface DailyPlanService {
 	 * @param request
 	 * @return
 	 */
-	OperationDto savePlan(List<DailyPlan> planList, HttpServletRequest request);
+	OperationDto savePlan(String planStr, HttpServletRequest request);
 
 	/**
 	 * 获取日计划

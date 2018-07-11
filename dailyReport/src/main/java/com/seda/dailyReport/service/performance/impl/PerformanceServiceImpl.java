@@ -21,15 +21,21 @@ import org.springframework.stereotype.Service;
 
 import com.seda.dailyReport.dao.LoginUserMapper;
 import com.seda.dailyReport.dao.PerformanceAppraisalMapper;
+import com.seda.dailyReport.dao.TaskClassificationMapper;
 import com.seda.dailyReport.model.LoginUser;
 import com.seda.dailyReport.model.LoginUserExample;
 import com.seda.dailyReport.model.PerformanceAppraisal;
 import com.seda.dailyReport.model.PerformanceAppraisalExample;
+import com.seda.dailyReport.model.TaskClassification;
+import com.seda.dailyReport.model.TaskClassificationExample;
 import com.seda.dailyReport.model.dto.OperationDto;
 import com.seda.dailyReport.model.vo.PerformanceVo;
 import com.seda.dailyReport.service.performance.PerformanceService;
 import com.seda.dailyReport.util.CreatePrimaryKeyUtils;
 import com.seda.dailyReport.util.DateUtils;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  * 绩效考核service实现类
@@ -47,6 +53,9 @@ public class PerformanceServiceImpl implements PerformanceService {
 
 	@Resource
 	private PerformanceAppraisalMapper performanceAppraisalMapper;
+	
+	@Resource
+	private TaskClassificationMapper taskClassificationMapper;
 
 	@Value("${mail.smtp.auth}")
 	private String auth;
@@ -92,12 +101,12 @@ public class PerformanceServiceImpl implements PerformanceService {
 		LoginUser loginUser = pv.getLoginUser();
 		String userId = loginUser.getId();
 		String appraisalMonth = pv.getAppraisalMonth();
-		List<PerformanceAppraisal> paList = pv.getPaList();
-		if (CollectionUtils.isEmpty(paList)) {
+		String performanceAppraisalStr = pv.getPerformanceAppraisalStr();
+		JSONArray jsonArray = JSONArray.fromObject(performanceAppraisalStr);
+		if (CollectionUtils.isEmpty(jsonArray)) {
 			return dto.fail("0", "绩效考核内容不能为空");
 		}
-		PerformanceAppraisal pa = paList.get(0);
-		Integer status = pa.getStatus();
+		Integer status = jsonArray.getJSONObject(0).getInt("status");
 		if (status == 1) {
 			return dto.fail("0", "邮件已发送给上级主管");
 		}
@@ -112,12 +121,13 @@ public class PerformanceServiceImpl implements PerformanceService {
 			}
 		}
 		int count = 0;
-		for (int i = 0; i < paList.size(); i++) {
-			PerformanceAppraisal appraisal = paList.get(i);
-			String concreteFunction = appraisal.getConcreteFunction(); // 具体功能
-			String manHour = appraisal.getManHour(); // 耗用工时
-			String projectName = appraisal.getProjectName(); // 项目名称
-			String performance = appraisal.getPerformance(); // 完成情况（%）
+		for (int i = 0; i < jsonArray.size(); i++) {
+			JSONObject jsonObject = jsonArray.getJSONObject(i);
+			String concreteFunction = jsonObject.getString("concreteFunction");// 具体功能
+			String manHour = jsonObject.getString("manHour");// 耗用工时
+			String projectName = jsonObject.getString("projectName");// 项目名称
+			String performance = jsonObject.getString("performance");// 完成情况（%）
+			PerformanceAppraisal appraisal = new PerformanceAppraisal();
 			if (StringUtils.isBlank(concreteFunction)) {
 				return dto.fail("0", "具体功能为空");
 			}
@@ -130,9 +140,16 @@ public class PerformanceServiceImpl implements PerformanceService {
 			if (StringUtils.isBlank(performance)) {
 				return dto.fail("0", "完成情况为空");
 			}
+			appraisal.setConcreteFunction(concreteFunction);
+			appraisal.setManHour(manHour);
+			appraisal.setProjectName(projectName);
+			appraisal.setPerformance(performance);
 			appraisal.setId(CreatePrimaryKeyUtils.createPrimaryKey());
 			appraisal.setAppraisalMonth(appraisalMonth);
 			appraisal.setCreateBy(userId);
+			appraisal.setUserid(userId);
+			appraisal.setTaskId(jsonObject.getString("taekId"));//该字段保存任务名称，不是id值
+			appraisal.setOvertim(jsonObject.getString("overtim"));
 			String format = DateUtils.format(new Date(), DateUtils.LONG_PURE_DIGITAL_PATTERN);
 			appraisal.setCreateDate(format);
 			appraisal.setUpdateBy(userId);
@@ -143,7 +160,7 @@ public class PerformanceServiceImpl implements PerformanceService {
 				count++;
 			}
 		}
-		if (count == paList.size()) {
+		if (count == jsonArray.size()) {
 			return dto.success("保存成功");
 		}
 		return dto.fail("0", "保存失败");
@@ -232,6 +249,21 @@ public class PerformanceServiceImpl implements PerformanceService {
 			return dto.success(list);
 		}
 		return dto.fail("", "该考核人员" + name + "还未填写" + month + "考核周期的考核考核内容！");
+	}
+
+	/**
+	 * 获取所有的任务名称
+	 */
+	@Override
+	public OperationDto getTaskName() {
+		OperationDto dto = new OperationDto();
+		TaskClassificationExample example = new TaskClassificationExample();
+		example.createCriteria();
+		List<TaskClassification> list = this.taskClassificationMapper.selectByExample(example);
+		if (CollectionUtils.isNotEmpty(list)) {
+			return dto.success(list);
+		}
+		return dto.fail("0", "任务名称为空");
 	}
 
 }

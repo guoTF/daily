@@ -45,8 +45,8 @@ public class DailyReportController {
 	 */
 	@RequestMapping(value="/saveReport")
 	@ResponseBody
-	public OperationDto saveReport(List<DailyReport> reportList, HttpServletRequest request){
-		return this.dailyReportService.saveReport(reportList, request);
+	public OperationDto saveReport(String reportStr, HttpServletRequest request){
+		return this.dailyReportService.saveReport(reportStr, request);
 	}
 	
 	/**

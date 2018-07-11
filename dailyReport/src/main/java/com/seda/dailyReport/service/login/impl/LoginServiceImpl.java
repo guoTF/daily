@@ -13,9 +13,15 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
+import com.seda.dailyReport.dao.DepartmentMapper;
 import com.seda.dailyReport.dao.LoginUserMapper;
+import com.seda.dailyReport.dao.PostMapper;
+import com.seda.dailyReport.model.Department;
+import com.seda.dailyReport.model.DepartmentExample;
 import com.seda.dailyReport.model.LoginUser;
 import com.seda.dailyReport.model.LoginUserExample;
+import com.seda.dailyReport.model.Post;
+import com.seda.dailyReport.model.PostExample;
 import com.seda.dailyReport.model.dto.OperationDto;
 import com.seda.dailyReport.service.login.LoginService;
 import com.seda.dailyReport.util.CreatePrimaryKeyUtils;
@@ -34,12 +40,18 @@ public class LoginServiceImpl implements LoginService {
 
 	@Resource
 	private LoginUserMapper loginUserMapper;
+	
+	@Resource
+	private DepartmentMapper departmentMapper;
+	
+	@Resource
+	private PostMapper postMapper;
 
 	/**
 	 * 注册
 	 */
 	@Override
-	public OperationDto register(LoginUser loginUser, String identifyingCode, String mobileCode, HttpServletRequest request, HttpServletResponse response) {
+	public OperationDto register(LoginUser loginUser, String password2, String identifyingCode, String mobileCode, HttpServletRequest request, HttpServletResponse response) {
 		OperationDto dto = new OperationDto();
 		String userName = loginUser.getUserName();
 		String password = loginUser.getPassword();
@@ -51,6 +63,12 @@ public class LoginServiceImpl implements LoginService {
 		}
 		if (StringUtils.isBlank(password)) {
 			return dto.fail("0", "密码为空");
+		}
+		if (StringUtils.isBlank(password2)) {
+			return dto.fail("0", "确认密码为空");
+		}
+		if (!password.equals(password2)) {
+			return dto.fail("0", "确认密码与密码不相同");
 		}
 		if (StringUtils.isBlank(phone)) {
 			return dto.fail("0", "电话为空");
@@ -74,15 +92,16 @@ public class LoginServiceImpl implements LoginService {
 			return dto.fail("0", "该邮箱已被使用");
 		}
 		//手机验证码验证
-		String code = (String) request.getSession().getAttribute("mobileCode");
+		/*String code = (String) request.getSession().getAttribute("mobileCode");
 		if (StringUtils.isBlank(mobileCode) || !code.equals(mobileCode)) {
 			return dto.fail("0", "手机验证码错误");
-		}
+		}*/
 		loginUser.setId(CreatePrimaryKeyUtils.createPrimaryKey());
 		loginUser.setStatus(1);
 		//邮箱激活认证
-		loginUser.setActivated(0);
-		loginUser.setCodeUrl(UUID.randomUUID().toString());
+		loginUser.setActivated(1);
+		/*loginUser.setActivated(0);
+		loginUser.setCodeUrl(UUID.randomUUID().toString());*/
 		int i = this.loginUserMapper.insertSelective(loginUser);
 		if (i == 1) {
 			request.getSession().setAttribute("user", loginUser);
@@ -165,6 +184,30 @@ public class LoginServiceImpl implements LoginService {
 				}
 			}
 		}
+	}
+
+
+	/**
+	 * 获取所有部门
+	 */
+	@Override
+	public List<Department> getDepartment() {
+		DepartmentExample example = new DepartmentExample();
+		example.createCriteria();
+		List<Department> list = this.departmentMapper.selectByExample(example);
+		return list;
+	}
+
+
+	/**
+	 * 获取部门中所有的岗位信息
+	 */
+	@Override
+	public List<Post> getPost(int depId) {
+		PostExample example = new PostExample();
+		example.createCriteria().andDepNameEqualTo(depId);
+		List<Post> list = this.postMapper.selectByExample(example);
+		return list;
 	}
 
 }

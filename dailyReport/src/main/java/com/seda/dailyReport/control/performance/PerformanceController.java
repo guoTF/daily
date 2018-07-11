@@ -57,6 +57,16 @@ public class PerformanceController {
 	public OperationDto sendMail(String toMail, String month, HttpServletRequest request){
 		return this.performanceService.sendMail(toMail, month, request);
 	}
+
+	/**
+	 * 获取任务名称列表
+	 * @return
+	 */
+	@RequestMapping("/getTaskName")
+	@ResponseBody
+	public OperationDto getTaskName(){
+		return this.performanceService.getTaskName();
+	}
 	
 	/**
 	 * 管理层查询某人某个考核周期的绩效考核内容

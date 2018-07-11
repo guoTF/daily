@@ -45,8 +45,8 @@ public class DailyPlanController {
 	 */
 	@RequestMapping(value="/savePlan")
 	@ResponseBody
-	public OperationDto savePlan(List<DailyPlan> planList, HttpServletRequest request){
-		return this.dailyPlanService.savePlan(planList, request);
+	public OperationDto savePlan(String planStr, HttpServletRequest request){
+		return this.dailyPlanService.savePlan(planStr, request);
 	}
 	
 	/**

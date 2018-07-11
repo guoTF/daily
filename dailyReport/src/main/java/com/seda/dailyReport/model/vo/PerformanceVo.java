@@ -12,9 +12,12 @@ import com.seda.dailyReport.model.PerformanceAppraisal;
  */
 public class PerformanceVo {
 
+	//登录人信息
 	private LoginUser loginUser;
-	
+	//显示时绩效考核内容
 	private List<PerformanceAppraisal> paList;
+	//保存时绩效考核内容
+	private String performanceAppraisalStr;
 	
 	//任务名称
 	private String taskName;
@@ -24,6 +27,14 @@ public class PerformanceVo {
 	
 	//员工姓名
 	private String userName;
+
+	public String getPerformanceAppraisalStr() {
+		return performanceAppraisalStr;
+	}
+
+	public void setPerformanceAppraisalStr(String performanceAppraisalStr) {
+		this.performanceAppraisalStr = performanceAppraisalStr;
+	}
 
 	public String getAppraisalMonth() {
 		return appraisalMonth;

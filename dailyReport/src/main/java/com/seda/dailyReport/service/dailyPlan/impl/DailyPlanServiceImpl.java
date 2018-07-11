@@ -19,6 +19,9 @@ import com.seda.dailyReport.service.dailyPlan.DailyPlanService;
 import com.seda.dailyReport.util.CreatePrimaryKeyUtils;
 import com.seda.dailyReport.util.DateUtils;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 /**
  * 日工作计划service实现类
  * @author 郭腾飞 20180626
@@ -35,31 +38,34 @@ public class DailyPlanServiceImpl implements DailyPlanService {
 	 */
 	@Override
 	@Transactional
-	public OperationDto savePlan(List<DailyPlan> planList, HttpServletRequest request) {
+	public OperationDto savePlan(String planStr, HttpServletRequest request) {
 		OperationDto dto = new OperationDto();
 		String userID = (String) request.getSession().getAttribute("userID");
-		String planDay = planList.get(0).getPlanDay();
-		if (StringUtils.isBlank(planDay)) {
-			return dto.fail("0", "计划日期未选择");
-		}
-		List<DailyPlan> oldPlanList = this.getPlan(planDay, request);
-		//删除该计划日已经做好的计划
-		if (CollectionUtils.isNotEmpty(oldPlanList)) {
-			DailyPlanExample planExample = new DailyPlanExample();
-			planExample.createCriteria().andUserIdEqualTo(userID).andPlanDayEqualTo(planDay);
-			int i = this.dailyPlanMapper.deleteByExample(planExample);
-			if (i != oldPlanList.size()) {
-				return dto.fail("0", "保存失败");
+		JSONArray jsonArray = JSONArray.fromObject(planStr);
+		if (CollectionUtils.isNotEmpty(jsonArray)) {
+			String planDay = jsonArray.getJSONObject(0).getString("planDay");
+			if (StringUtils.isBlank(planDay)) {
+				return dto.fail("0", "计划日期未选择");
 			}
-		}
-		if (CollectionUtils.isNotEmpty(planList)) {
+			List<DailyPlan> oldPlanList = this.getPlan(planDay, request);
+			//删除该计划日已经做好的计划
+			if (CollectionUtils.isNotEmpty(oldPlanList)) {
+				DailyPlanExample planExample = new DailyPlanExample();
+				planExample.createCriteria().andUserIdEqualTo(userID).andPlanDayEqualTo(planDay);
+				int i = this.dailyPlanMapper.deleteByExample(planExample);
+				if (i != oldPlanList.size()) {
+					return dto.fail("0", "保存失败");
+				}
+			}
 			int num = 0;
-			for (DailyPlan dailyPlan : planList) {
-				String planProjectName = dailyPlan.getPlanProjectName();
-				String planContent = dailyPlan.getPlanContent();
-				String planGoal = dailyPlan.getPlanGoal();
-				Integer planNum = dailyPlan.getPlanNum();
-				Double planTime = dailyPlan.getPlanTime();
+			for (int i = 0; i < jsonArray.size(); i++) {
+				JSONObject jsonObject = jsonArray.getJSONObject(i);
+				String planProjectName = jsonObject.getString("planProjectName");
+				String planContent = jsonObject.getString("planContent");
+				String planGoal = jsonObject.getString("planGoal");
+				Integer planNum = jsonObject.getInt("planNum");
+				Double planTime = jsonObject.getDouble("planTime");
+				DailyPlan dailyPlan = new DailyPlan();
 				if (StringUtils.isBlank(planProjectName)) {
 					return dto.fail("0", "项目名称为空");
 				}
@@ -69,21 +75,27 @@ public class DailyPlanServiceImpl implements DailyPlanService {
 				if (StringUtils.isBlank(planGoal)) {
 					return dto.fail("0", "计划目标为空");
 				}
-				if (planNum == null) {
+				if (planNum == 0) {
 					return dto.fail("0", "序号为空");
 				}
 				if (planTime == null || planTime == 0.00) {
 					return dto.fail("0", "工作量为空");
 				}
+				dailyPlan.setPlanProjectName(planProjectName);
+				dailyPlan.setPlanContent(planContent);
+				dailyPlan.setPlanGoal(planGoal);
+				dailyPlan.setPlanNum(planNum);
+				dailyPlan.setPlanTime(planTime);
 				dailyPlan.setId(CreatePrimaryKeyUtils.createPrimaryKey());
 				dailyPlan.setUserId(userID);
 				dailyPlan.setCreateDate(new Date());
-				int i = this.dailyPlanMapper.insert(dailyPlan);
-				if (i == 1) {
+				int j = this.dailyPlanMapper.insert(dailyPlan);
+				if (j == 1) {
 					num = num + 1;
 				}
+				
 			}
-			if (num == planList.size()) {
+			if (num == jsonArray.size()) {
 				return dto.success("保存成功");
 			}
 		}

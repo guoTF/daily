@@ -1,6 +1,7 @@
 package com.seda.dailyReport.service.login.impl;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,16 +16,19 @@ import org.springframework.stereotype.Service;
 
 import com.seda.dailyReport.dao.DepartmentMapper;
 import com.seda.dailyReport.dao.LoginUserMapper;
+import com.seda.dailyReport.dao.MobileCodeMapper;
 import com.seda.dailyReport.dao.PostMapper;
 import com.seda.dailyReport.model.Department;
 import com.seda.dailyReport.model.DepartmentExample;
 import com.seda.dailyReport.model.LoginUser;
 import com.seda.dailyReport.model.LoginUserExample;
+import com.seda.dailyReport.model.MobileCode;
 import com.seda.dailyReport.model.Post;
 import com.seda.dailyReport.model.PostExample;
 import com.seda.dailyReport.model.dto.OperationDto;
 import com.seda.dailyReport.service.login.LoginService;
 import com.seda.dailyReport.util.CreatePrimaryKeyUtils;
+import com.seda.dailyReport.util.DateUtils;
 import com.seda.dailyReport.util.EmailUtils;
 import com.seda.dailyReport.util.GenerateLinkUtils;
 import com.seda.dailyReport.util.SmsUtils;
@@ -46,6 +50,9 @@ public class LoginServiceImpl implements LoginService {
 	
 	@Resource
 	private PostMapper postMapper;
+	
+	@Resource
+	private MobileCodeMapper mobileCodeMapper;
 
 	/**
 	 * 注册
@@ -158,6 +165,12 @@ public class LoginServiceImpl implements LoginService {
 		String code = sendSms.substring(0, sendSms.indexOf(":"));
 		if ("2".equals(code)) {
 			session.setAttribute("mobileCode", mobileCode);
+			MobileCode mc = new MobileCode();
+			mc.setId(CreatePrimaryKeyUtils.createPrimaryKey());
+			mc.setPhone(phone);
+			mc.setMobileCode(String.valueOf(mobileCode));
+			mc.setCreateDate(DateUtils.format((new Date()), DateUtils.LONG_DATE_PATTERN));
+			this.mobileCodeMapper.insertSelective(mc);
 			return dto.success("短信验证码发送成功");
 		}
 		return dto.fail("0", "短信验证码发送失败");

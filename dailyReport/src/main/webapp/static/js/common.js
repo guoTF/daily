@@ -516,7 +516,7 @@ function getPhoneCodeCommon(phone,url,operation,bizSource, obj){
         });
 }
 
-$(function(){
+/*$(function(){
 	try {
         //设置登录用户
         if (loginUser && loginUser.hasOwnProperty("cname")){
@@ -537,9 +537,9 @@ $(function(){
                     $('.dg').datagrid("resize");
                 });
             }
-        });
+        });*/
         //登出
-        $("#loginOut").click(function(){
+       /* $("#loginOut").click(function(){
             $.ajax({
                 type:'post',
                 data:{
@@ -558,7 +558,7 @@ $(function(){
                     }
                 }
             })
-        });
+        });*/
        
         //修改密码
        /* $("#changePassword").click(function(){
@@ -633,7 +633,7 @@ $(function(){
             }
         });*/
         //角色菜单显示
-        $(".loginRole").mouseenter(function(){
+       /* $(".loginRole").mouseenter(function(){
             $(".loginMenu").css("display","block");
         });
         $(".loginMsg").mouseleave(function(){
@@ -690,11 +690,11 @@ $(function(){
                                 //layer.msg("js执行异常",{icon:2});
                             }
                         }
-
+*/
 //        		  data = data.replace(/\${path}/g,host);
 //        		  $(".rightContext").html(data);
 
-                    },
+                  /*  },
                     error: function(e){
                         debugger;
                         layer.msg("请求错误："+ e);
@@ -705,8 +705,8 @@ $(function(){
                 });
             }
         });
-
-        $(".headerMenu li.active").click();
+*/
+       /* $(".headerMenu li.active").click();
 
         $(".context").delegate(".navTab",'click',function(){
             $(".navTabs .navTab").removeClass("active");
@@ -717,7 +717,7 @@ $(function(){
     }catch (e){
 	    showExErrorMsg();
     }
-});
+});*/
 /**
  * 异常捕获信息展示
  */

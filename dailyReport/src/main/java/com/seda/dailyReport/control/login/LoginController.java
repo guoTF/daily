@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.seda.dailyReport.model.LoginUser;
 import com.seda.dailyReport.model.dto.OperationDto;
@@ -25,6 +26,17 @@ public class LoginController {
 	@Resource
 	private LoginService loginService;
 	
+	 /**
+     * 注册跳转
+     * @return
+     */
+    @RequestMapping(value="/toRegister")
+    public ModelAndView toBackLoginPage(){
+    	ModelAndView mav=new ModelAndView();
+    	mav.setViewName("register");
+    	return mav;
+    }
+
 	/**
 	 * 注册
 	 * @param loginUser

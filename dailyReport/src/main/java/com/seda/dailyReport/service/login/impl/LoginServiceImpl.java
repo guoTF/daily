@@ -92,15 +92,16 @@ public class LoginServiceImpl implements LoginService {
 			return dto.fail("0", "该邮箱已被使用");
 		}
 		//手机验证码验证
-		String code = (String) request.getSession().getAttribute("mobileCode");
+		/*String code = (String) request.getSession().getAttribute("mobileCode");
 		if (StringUtils.isBlank(mobileCode) || !code.equals(mobileCode)) {
 			return dto.fail("0", "手机验证码错误");
-		}
+		}*/
 		loginUser.setId(CreatePrimaryKeyUtils.createPrimaryKey());
 		loginUser.setStatus(1);
 		//邮箱激活认证
-		loginUser.setActivated(0);
-		loginUser.setCodeUrl(UUID.randomUUID().toString());
+		loginUser.setActivated(1);
+		/*loginUser.setActivated(0);
+		loginUser.setCodeUrl(UUID.randomUUID().toString());*/
 		int i = this.loginUserMapper.insertSelective(loginUser);
 		if (i == 1) {
 			request.getSession().setAttribute("user", loginUser);

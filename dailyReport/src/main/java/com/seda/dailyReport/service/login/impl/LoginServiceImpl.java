@@ -111,14 +111,14 @@ public class LoginServiceImpl implements LoginService {
 		loginUser.setCodeUrl(UUID.randomUUID().toString());*/
 		int i = this.loginUserMapper.insertSelective(loginUser);
 		if (i == 1) {
-			request.getSession().setAttribute("user", loginUser);
+			/*request.getSession().setAttribute("user", loginUser);
 			EmailUtils.sendAccountActivateEmail(loginUser);
 			try {
 				response.setContentType("text/html;charset=utf-8");
 				response.getWriter().write("激活邮件已经发送，请注意提醒查收");
 			} catch (Exception e) {
 				e.printStackTrace();
-			}	
+			}	*/
 			return dto.success("注册成功");
 		}
 		return dto.fail("0", "注册失败");

@@ -93,7 +93,7 @@
 			<tx:method name="change*" propagation="REQUIRED" />
 			<tx:method name="end*" propagation="REQUIRED" />
 			<tx:method name="cancel*" propagation="REQUIRED" />
-			<tx:method name="*" read-only="true" />
+			<!-- <tx:method name="*" read-only="true" /> -->
 		</tx:attributes>
 	</tx:advice>
 

@@ -40,6 +40,6 @@
                              targetProject="dailyReport">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
-        <table tableName="tb_performance_appraisal" domainObjectName="PerformanceAppraisal" />
+        <table tableName="tb_mobile_code" domainObjectName="MobileCode" />
     </context>
 </generatorConfiguration>

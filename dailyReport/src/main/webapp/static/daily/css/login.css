@@ -29,3 +29,6 @@ label.posValidate{
 	width:120px;
 	text-align: right;
 }
+body{
+	background:url('../../img/login.png') no-repeat
+}
